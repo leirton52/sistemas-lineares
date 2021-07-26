@@ -8,7 +8,9 @@ let coefA = [
 
 let coefB = [25,0,6]
 
-function organizarParaEscalonar(coefA, CoefB){
+function escalonar(coefA, CoefB){
+    // laços para percorrer os termos abaixo da diagonal principal
+    //i representa as colunas, j representa as linhas
     for(let i=0; i < coefA.length-1; i++){
         //supundo inicialmente que o termo da diagonal princial e o maior em modulo daquela coluna a partir dele
         let max = coefA[i][i]
@@ -22,7 +24,7 @@ function organizarParaEscalonar(coefA, CoefB){
             }
         }
         
-        //Mundando para que o valor maximo va para a diagonal principal
+        //Mundando para que o valor quu maximo va para a diagonal principal
         if(max != coefA[i][i]){
            //salvando temporariamente a linha do termo da diagonal principal
            let temp = coefA[i]
@@ -34,11 +36,34 @@ function organizarParaEscalonar(coefA, CoefB){
            //fazendo a mesma coisa para a matriz dos coeficientes indenpendentes
            temp = coefB[i]
            coefB[i] = coefB[indiceMax]
-           coefB[indiceMax] = temp
+           coefB[indiceMax] = temp   
         }
-    }    
+
+        for(let  j=i+1; j<coefA.length; j++){
+            //calculando o fator da combinação linear para zerar
+            //dos termos abaixo da diagonal principal
+            let fator = coefA[j][i]/coefA[i][i]
+            
+            //fazendo a cobinação linear para zerar a linha
+            //Se for para salvar uma nova linha e manter a original
+            //é melhor usar map() em vez de forEach
+    
+            for(k=i;k<coefA.length; k++){
+            //coefA[j].forEach((term, index)=>{
+                 //para fazer as operrações nos termos que já estão zerados
+                 //if(index>=i){
+                     //usamos a linha da diagonal principal paraa multiplicar pelo fator
+                     //assim ficamos com j=i
+                 coefA[j][k] = coefA[j][k] - fator*coefA[i][k]
+                 //}
+            }
+            
+            coefB[j] = coefB[j] - fator*coefB[i]
+        }
+    }
 }
 
+/*
 function escalonar(coefA, coefB){
     // laços para percorrer os termos abaixo da diagonal principal
     //i representa as colunas, j representa as linhas
@@ -67,6 +92,7 @@ function escalonar(coefA, coefB){
 		}
 	}
 }
+*/
 
 function resolveSistema(coefA, coefB){
     let solucao = []
@@ -85,15 +111,12 @@ function resolveSistema(coefA, coefB){
 console.log(coefA)
 console.log(coefB)
 
-organizarParaEscalonar(coefA, coefB)
-
-console.log(coefA)
-console.log(coefB)
-
 escalonar(coefA, coefB)
 
 console.log(coefA)
 console.log(coefB)
+
+//escalonar(coefA, coefB)
 
 let solucao = resolveSistema(coefA, coefB)
 
