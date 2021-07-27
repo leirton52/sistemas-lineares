@@ -8,7 +8,7 @@ let coefA = [
 
 let coefB = [25,0,6]
 
-function escalonar(coefA, CoefB){
+function escalonar(coefA, coefB){
     // laços para percorrer os termos abaixo da diagonal principal
     //i representa as colunas, j representa as linhas
     for(let i=0; i < coefA.length-1; i++){
